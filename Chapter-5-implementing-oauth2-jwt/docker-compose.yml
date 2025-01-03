@@ -28,8 +28,9 @@ services:
     image: bitnami/keycloak:latest
     restart: always
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+      TZ: Europe/Madrid
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       DB_VENDOR: POSTGRES
       DB_ADDR: keycloak_db
       DB_PORT: 5432
