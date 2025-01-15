@@ -22,13 +22,13 @@ public class AuthorController {
     private final AuthorRepository authorRepository;
 
     @PostMapping
-    public ResponseEntity<Author> addBook(@RequestBody Author author) {
+    public ResponseEntity<Author> addAuthor(@RequestBody Author author) {
         Author savedAuthor = authorRepository.save(author);
         return ResponseEntity.ok(savedAuthor);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getBook(@PathVariable Long id) {
+    public ResponseEntity<Author> getAuthor(@PathVariable Long id) {
         Optional<Author> author = authorRepository.findById(id);
         return author.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
