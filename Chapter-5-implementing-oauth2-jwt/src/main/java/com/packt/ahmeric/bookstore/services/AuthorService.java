@@ -13,8 +13,22 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
+    public Author addAuthor(Author author) {
+        return authorRepository.save(author);
+    }
+
     public Optional<Author> getAuthor(Long id) {
         return authorRepository.findById(id);
+    }
+
+    public Optional<Author> updateAuthor(Long id, Author author) {
+        return authorRepository.findById(id)
+                .map(existingAuthor -> {
+                    existingAuthor.setName(author.getName());
+                    existingAuthor.setBiography(author.getBiography());
+                    existingAuthor.setPublisher(author.getPublisher());
+                    return authorRepository.save(existingAuthor);
+                });
     }
 
 }

@@ -48,4 +48,16 @@ public class AuthorServiceTest {
         assertTrue(author.isPresent(), "Author should be found");
         assertEquals(1L, author.get().getId(), "Author id should be 1");
     }
+
+    @Test
+    public void whenAddNewAuthor_thenResturnSavedAuthor() {
+        // When
+        when(authorRepository.save(savedAuthor)).thenReturn(savedAuthor);
+        Author author = AuthorService.addAuthor(savedAuthor);
+
+        // Then
+        assertEquals(1L, author.getId(), "Author id should be 1");
+    }
+
+    // TODO: Implement the test for the updateAuthor method
 }
