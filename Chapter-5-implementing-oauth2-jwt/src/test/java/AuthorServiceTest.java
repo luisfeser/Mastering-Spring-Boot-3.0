@@ -1,9 +1,11 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
+import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.packt.ahmeric.bookstore.data.Author;
 import com.packt.ahmeric.bookstore.data.Publisher;
 import com.packt.ahmeric.bookstore.repositories.AuthorRepository;
@@ -52,6 +56,17 @@ public class AuthorServiceTest {
     }
 
     @Test
+    public void whenGetAuthors_thenReturnAllAuthors() {
+        // When
+        when(authorRepository.findAll()).thenReturn(List.of(savedAuthor));
+        var authors = AuthorService.getAuthors();
+
+        // Then
+        assertEquals(1, authors.size(), "Authors list should contain 1 author");
+        assertEquals(1L, authors.get(0).getId(), "Author id should be 1");
+    }
+
+    @Test
     public void whenAddNewAuthor_thenResturnSavedAuthor() {
         // When
         when(authorRepository.save(savedAuthor)).thenReturn(savedAuthor);
@@ -85,5 +100,17 @@ public class AuthorServiceTest {
 
         verify(authorRepository, times(1)).findById(1L);
         verify(authorRepository, times(1)).save(savedAuthor);
+    }
+
+    @Test
+    public void whenDeleteAuthor_thenVerifyDeleteIsCalled() {
+        // Given
+        doNothing().when(authorRepository).deleteById(1L);
+
+        // When
+        AuthorService.deleteAuthor(1L);
+
+        // Then
+        verify(authorRepository, times(1)).deleteById(savedAuthor.getId());
     }
 }

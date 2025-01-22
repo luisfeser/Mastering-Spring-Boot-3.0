@@ -6,12 +6,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name = "books")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Book {
     @Id @GeneratedValue
     private Long id;

@@ -1,10 +1,14 @@
 package com.packt.ahmeric.bookstore.services;
 
+import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
 
 import com.packt.ahmeric.bookstore.data.Author;
 import com.packt.ahmeric.bookstore.repositories.AuthorRepository;
 
+@Service
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
@@ -21,6 +25,10 @@ public class AuthorService {
         return authorRepository.findById(id);
     }
 
+    public List<Author> getAuthors() {
+        return authorRepository.findAll();
+    }
+
     public Optional<Author> updateAuthor(Long id, Author author) {
         return authorRepository.findById(id)
                 .map(existingAuthor -> {
@@ -29,8 +37,10 @@ public class AuthorService {
                     existingAuthor.setPublisher(author.getPublisher());
                     return authorRepository.save(existingAuthor);
                 });
+    }
 
-        //return null;
+    public void deleteAuthor(Long id) {
+        authorRepository.deleteById(id);
     }
 
 }
